@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">NoteTaker</string>
+    <string name="btn_save_list">Save List</string>
+</resources>
