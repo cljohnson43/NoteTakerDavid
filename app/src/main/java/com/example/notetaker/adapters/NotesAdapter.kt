@@ -7,12 +7,13 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notetaker.R
+import com.example.notetaker.models.Note
 
-class NotesAdapter(val notes: MutableList<String>) :
+class NotesAdapter(val notes: MutableList<Note>) :
     RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
 
     override fun onBindViewHolder(holder: NotesViewHolder, pos: Int) {
-        holder.etNote.setText(notes.get(pos), TextView.BufferType.EDITABLE)
+        holder.tvNote.text = notes.get(pos).title
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
@@ -24,6 +25,6 @@ class NotesAdapter(val notes: MutableList<String>) :
     override fun getItemCount() = notes.size
 
     class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val etNote: EditText = itemView.findViewById(R.id.et_note)
+        val tvNote: TextView = itemView.findViewById(R.id.tv_note_title)
     }
 }
