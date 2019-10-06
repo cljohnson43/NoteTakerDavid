@@ -8,11 +8,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.notetaker.R
 import com.example.notetaker.adapters.NotesAdapter
 import com.example.notetaker.models.EXTRA_NOTE_KEY
 import com.example.notetaker.models.Note
+import com.google.android.material.transformation.ExpandableTransformationBehavior
 import kotlinx.android.synthetic.main.activity_main.*
 
 const val STRING_KEY = "note"
@@ -33,7 +35,11 @@ class MainActivity : AppCompatActivity() {
         retrieveNotes()
 
         rv_notes_list.adapter = NotesAdapter(notes)
-        rv_notes_list.layoutManager = LinearLayoutManager(this)
+        val linearLayoutM = LinearLayoutManager(this)
+        rv_notes_list.layoutManager = linearLayoutM
+
+        val decorator = DividerItemDecoration(rv_notes_list.context, linearLayoutM.orientation)
+        rv_notes_list.addItemDecoration(decorator)
     }
 
     fun onClick(view: View) {
@@ -65,16 +71,22 @@ class MainActivity : AppCompatActivity() {
         for (i in 0..6) {
             retrievedTitle = sharedPreference.getString(getTitleKey(i), "") ?: ""
             retrievedNoteEntry = sharedPreference.getString(getNoteKey(i), "") ?: ""
-            notes.add(Note(retrievedTitle, retrievedNoteEntry))
+            if (retrievedTitle != "") {
+                notes.add(Note(retrievedTitle, retrievedNoteEntry))
+            }
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_NOTE_CODE) {
-            Log.d("NOTE_ADDED", "Title: ${data?.getParcelableExtra<Note>(EXTRA_NOTE_KEY)?.title}\nNote: ${data?.getParcelableExtra<Note>(EXTRA_NOTE_KEY)?.note}")
+            val newTitle = data?.getParcelableExtra<Note>(EXTRA_NOTE_KEY)?.title
+            val newNote = data?.getParcelableExtra<Note>(EXTRA_NOTE_KEY)?.note
+            if (newTitle != null && newNote != null) {
+                notes.add(Note(title = newTitle, note = newNote))
+                rv_notes_list.adapter?.notifyItemInserted(notes.lastIndex)
+            }
         }
 
     }
