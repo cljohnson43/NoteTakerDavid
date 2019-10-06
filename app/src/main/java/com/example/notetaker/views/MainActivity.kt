@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -14,16 +13,17 @@ import com.example.notetaker.R
 import com.example.notetaker.adapters.NotesAdapter
 import com.example.notetaker.models.EXTRA_NOTE_KEY
 import com.example.notetaker.models.Note
-import com.google.android.material.transformation.ExpandableTransformationBehavior
 import kotlinx.android.synthetic.main.activity_main.*
 
 const val STRING_KEY = "note"
 const val REQUEST_NOTE_CODE = 43
+const val REQUEST_NOTE_EDIT = 44
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NotesAdapter.ItemSelector {
 
     lateinit var sharedPreference: SharedPreferences
     val notes: MutableList<Note> = mutableListOf()
+    var editingNoteIndex = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         )
         retrieveNotes()
 
-        rv_notes_list.adapter = NotesAdapter(notes)
+        rv_notes_list.adapter = NotesAdapter(notes, this)
         val linearLayoutM = LinearLayoutManager(this)
         rv_notes_list.layoutManager = linearLayoutM
 
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == REQUEST_NOTE_CODE) {
+        if (requestCode == REQUEST_NOTE_CODE && RESULT_OK == resultCode) {
             val newTitle = data?.getParcelableExtra<Note>(EXTRA_NOTE_KEY)?.title
             val newNote = data?.getParcelableExtra<Note>(EXTRA_NOTE_KEY)?.note
             if (newTitle != null && newNote != null) {
@@ -89,6 +89,29 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        if (requestCode == REQUEST_NOTE_EDIT && RESULT_OK == resultCode) {
+            val newTitle = data?.getParcelableExtra<Note>(EXTRA_NOTE_KEY)?.title
+            val newNote = data?.getParcelableExtra<Note>(EXTRA_NOTE_KEY)?.note
+
+            if (newTitle != null && newNote != null) {
+                notes.get(editingNoteIndex).apply {
+                    title = newTitle
+                    note = newNote
+                }
+                rv_notes_list.adapter?.notifyItemChanged(editingNoteIndex)
+            }
+
+            editingNoteIndex = -1
+        }
+    }
+
+    override fun itemSelected(pos: Int) {
+        Intent(this, CreateNoteActivity::class.java).apply {
+            setAction(getString(R.string.ACTION_EDIT_NOTE))
+            putExtra(EXTRA_NOTE_KEY, notes.get(pos))
+            startActivityForResult(this, REQUEST_NOTE_EDIT)
+            editingNoteIndex = pos
+        }
     }
 }
 

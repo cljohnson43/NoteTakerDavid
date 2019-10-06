@@ -21,6 +21,9 @@
             <intent-filter>
                 <action android:name="@string/ACTION_CREATE_NOTE"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="@string/ACTION_EDIT_NOTE"/>
+            </intent-filter>
         </activity>
     </application>
 

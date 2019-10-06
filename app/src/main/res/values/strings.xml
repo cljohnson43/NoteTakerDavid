@@ -3,6 +3,7 @@
     <string name="btn_save_note">Save Note</string>
     <string name="et_title">Title</string>
     <string name="et_note">Tap to enter note</string>
-    <string name="list_label">Notes:</string>
+    <string name="list_label">Notes</string>
     <string name="ACTION_CREATE_NOTE">notetaker.action.CREATE_NOTE</string>
+    <string name="ACTION_EDIT_NOTE">notetaker.action.EDIT_NOTE</string>
 </resources>

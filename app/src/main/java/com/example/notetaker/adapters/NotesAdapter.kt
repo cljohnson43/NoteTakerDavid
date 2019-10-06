@@ -5,15 +5,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notetaker.R
 import com.example.notetaker.models.Note
 
-class NotesAdapter(val notes: MutableList<Note>) :
+class NotesAdapter(val notes: MutableList<Note>, val delegator: ItemSelector) :
     RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
 
     override fun onBindViewHolder(holder: NotesViewHolder, pos: Int) {
         holder.tvNote.text = notes.get(pos).title
+        holder.cvNote.setOnClickListener{ view: View ->
+            delegator.itemSelected(pos)
+
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
@@ -26,5 +31,10 @@ class NotesAdapter(val notes: MutableList<Note>) :
 
     class NotesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvNote: TextView = itemView.findViewById(R.id.tv_note_title)
+        val cvNote: CardView = itemView.findViewById(R.id.cv_note)
+    }
+
+    interface ItemSelector {
+        fun itemSelected(pos: Int)
     }
 }
