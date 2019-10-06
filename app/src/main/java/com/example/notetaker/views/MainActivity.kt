@@ -16,6 +16,7 @@ import com.example.notetaker.models.Note
 import kotlinx.android.synthetic.main.activity_main.*
 
 const val STRING_KEY = "note"
+const val LIST_SIZE_KEY = "number_of_notes"
 const val REQUEST_NOTE_CODE = 43
 const val REQUEST_NOTE_EDIT = 44
 
@@ -40,6 +41,19 @@ class MainActivity : AppCompatActivity(), NotesAdapter.ItemSelector {
 
         val decorator = DividerItemDecoration(rv_notes_list.context, linearLayoutM.orientation)
         rv_notes_list.addItemDecoration(decorator)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        sharedPreference.edit()?.let {
+            it.putInt(LIST_SIZE_KEY, notes.size)
+            for (i in notes.indices) {
+                val note = notes.get(i)
+                it.putString(getNoteKey(i), note.note)
+                it.putString(getTitleKey(i), note.title)
+            }
+            it.apply()
+        }
     }
 
     fun onClick(view: View) {
@@ -67,8 +81,9 @@ class MainActivity : AppCompatActivity(), NotesAdapter.ItemSelector {
     fun retrieveNotes() {
         var retrievedTitle: String
         var retrievedNoteEntry: String
+        val numNotes: Int = sharedPreference.getInt(LIST_SIZE_KEY, 0)
 
-        for (i in 0..6) {
+        for (i in 0..numNotes) {
             retrievedTitle = sharedPreference.getString(getTitleKey(i), "") ?: ""
             retrievedNoteEntry = sharedPreference.getString(getNoteKey(i), "") ?: ""
             if (retrievedTitle != "") {
