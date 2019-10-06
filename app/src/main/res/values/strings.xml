@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">NoteTaker</string>
-    <string name="btn_save_list">Save List</string>
+    <string name="btn_save_note">Save Note</string>
+    <string name="et_title">Title</string>
+    <string name="et_note">Tap to enter note</string>
+    <string name="ACTION_CREATE_NOTE">notetaker.action.CREATE_NOTE</string>
 </resources>

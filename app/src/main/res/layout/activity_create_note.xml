@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.CreateNoteActivity"
+    >
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/outer_margin"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/outer_margin"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_begin="@dimen/vertical_margin"
+        android:orientation="horizontal"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_end="@dimen/vertical_margin"
+        android:orientation="horizontal"
+        />
+
+    <EditText
+        android:id="@+id/et_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/et_title"
+        android:singleLine="true"
+        android:inputType="none"
+        app:layout_constraintStart_toEndOf="@id/gl_left"
+        app:layout_constraintEnd_toStartOf="@id/gl_right"
+        app:layout_constraintTop_toBottomOf="@id/gl_top"
+        />
+
+    <EditText
+        android:id="@+id/et_note"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:hint="@string/et_note"
+        android:singleLine="false"
+        android:inputType="none"
+        android:gravity="top|left"
+        app:layout_constraintStart_toStartOf="@id/et_title"
+        app:layout_constraintEnd_toEndOf="@id/et_title"
+        app:layout_constraintTop_toBottomOf="@id/et_title"
+        app:layout_constraintBottom_toTopOf="@id/btn_save_note"
+        />
+
+    <Button
+        android:id="@+id/btn_save_note"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:background="@color/blue"
+        android:text="@string/btn_save_note"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/btn_text_size"
+        android:paddingLeft="@dimen/spacing"
+        android:paddingRight="@dimen/spacing"
+        app:layout_constraintEnd_toStartOf="@id/gl_right"
+        app:layout_constraintStart_toEndOf="@id/gl_left"
+        app:layout_constraintTop_toBottomOf="@id/et_note"
+        app:layout_constraintBottom_toTopOf="@id/gl_bottom"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
