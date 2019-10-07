@@ -6,4 +6,14 @@
     <string name="list_label">Notes</string>
     <string name="ACTION_CREATE_NOTE">notetaker.action.CREATE_NOTE</string>
     <string name="ACTION_EDIT_NOTE">notetaker.action.EDIT_NOTE</string>
+    <string name="tv_blue">Blue</string>
+    <string name="blue_rgb">#0D85E5</string>
+
+    <string name="tv_yellow">Yellow</string>
+    <string name="yellow_rgb">#E6DDB1</string>
+
+    <string name="tv_red">Red</string>
+    <string name="red_rgb">#E36A6A</string>
+    <string name="main_activity_label">Select a note font color</string>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.example.notetaker.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.notetaker.R
 import com.example.notetaker.models.Note
 
-class NotesAdapter(val notes: MutableList<Note>, val delegator: ItemSelector) :
-    RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
-
+class NotesAdapter(val notes: MutableList<Note>, val fontRGB: String, val delegator: ItemSelector)
+    : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
     override fun onBindViewHolder(holder: NotesViewHolder, pos: Int) {
         holder.tvNote.text = notes.get(pos).title
-        holder.cvNote.setOnClickListener{ view: View ->
+        holder.tvNote.setTextColor(Color.parseColor(fontRGB))
+        holder.cvNote.setOnClickListener{
             delegator.itemSelected(pos)
-
         }
     }
 
