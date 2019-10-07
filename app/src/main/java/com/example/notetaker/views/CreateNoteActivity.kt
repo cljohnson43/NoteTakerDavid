@@ -1,7 +1,10 @@
 package com.example.notetaker.views
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -14,10 +17,19 @@ import kotlinx.android.synthetic.main.activity_create_note.*
 
 class CreateNoteActivity : AppCompatActivity() {
 
+    val sharedPreferences: SharedPreferences by lazy {
+        getSharedPreferences(applicationContext.packageName, Context.MODE_PRIVATE)
+    }
+
     lateinit var actionRequested: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_note)
+
+        val fontRGB = sharedPreferences.getString(COLOR_KEY, DEFAULT_COLOR) ?: DEFAULT_COLOR
+
+        et_title.setTextColor(Color.parseColor(fontRGB))
+        et_note.setTextColor(Color.parseColor(fontRGB))
 
         actionRequested = intent.action ?: "NO_ACTION_REQUESTED"
 
